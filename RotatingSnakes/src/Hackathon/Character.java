@@ -12,6 +12,8 @@ public class Character {
 	int x;
 	int y;
 	BufferedImage i;
+	public Rect boundingBox;
+
 	public Character(BufferedImage ik, int xx, int yy) {
 		i = ik;
 		x = xx;
@@ -19,13 +21,17 @@ public class Character {
 		Timer t = new Timer();
 		t.schedule(new TimerTask() {
 			public void run() {
-				if(angle>=360) {
-					angle = angle-360;
+				if (angle >= 360) {
+					angle = angle - 360;
 				}
-				if(angle<0) {
-					angle = 360+angle;
+				if (angle < 0) {
+					angle = 360 + angle;
 				}
 			}
-		}, 0,20);
+		}, 0, 20);
+	}
+	
+	public void kill() {
+		
 	}
 }
