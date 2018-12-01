@@ -66,11 +66,11 @@ public class Hackathon extends JPanel{
 			AffineTransform at = AffineTransform.getTranslateInstance(char1.x, char1.y);
 			at.rotate(Math.toRadians(char1.angle));
 			Graphics2D g2d = (Graphics2D)g;
-			g2d.drawImage(char1.i, at,null);
+			g2d.drawImage(char1.getImage(), at,null);
 			AffineTransform at1 = AffineTransform.getTranslateInstance(char2.x, char2.y);
 			at1.rotate(Math.toRadians(char2.angle));
 			Graphics2D g2d1 = (Graphics2D)g;
-			g2d1.drawImage(char2.i, at1,null);
+			g2d1.drawImage(char2.getImage(), at1,null);
 	}
 	
 	public void ActualLocation(Character chara) {
