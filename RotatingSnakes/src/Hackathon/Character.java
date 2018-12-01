@@ -9,16 +9,12 @@ public class Character {
 	int speed = 7;
 	int Charx = 0;
 	int CHary = 0;
-	int height;
-	int width;
 	int x;
 	int y;
 	BufferedImage i;
 	public Rect boundingBox;
 
 	public Character(BufferedImage ik, int xx, int yy) {
-		height = ik.getHeight();
-		width = ik.getWidth();
 		i = ik;
 		x = xx;
 		y = yy;
