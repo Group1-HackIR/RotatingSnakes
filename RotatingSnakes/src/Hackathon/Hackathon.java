@@ -40,20 +40,16 @@ public class Hackathon extends JPanel{
 		t.schedule(new TimerTask() {
 			public void run() {
 				if(angle1A) {
-					char1.angle+=5;
-					rotation(char1);
+					char1.angle++;
 				}
 				if(angle1B) {
-					char1.angle-=5;
-					rotation(char1);
+					char1.angle--;
 				}
 				if(angle2A) {
-					char2.angle+=5;
-					rotation(char2);
+					char2.angle++;
 				}
 				if(angle2B) {
-					char2.angle-=5;
-					rotation(char2);
+					char2.angle--;
 				}
 				if(forward1||backward1) {
 					moving(true);
@@ -67,31 +63,18 @@ public class Hackathon extends JPanel{
 	}
 	
 	public void paint(Graphics g) {
-		g.drawImage(char1.i, char1.x, char1.y,null);
-		g.drawImage(char2.i, char2.x, char2.y,null);
+			AffineTransform at = AffineTransform.getTranslateInstance(char1.x, char1.y);
+			at.rotate(Math.toRadians(char1.angle));
+			Graphics2D g2d = (Graphics2D)g;
+			g2d.drawImage(char1.i, at,null);
+			AffineTransform at1 = AffineTransform.getTranslateInstance(char2.x, char2.y);
+			at1.rotate(Math.toRadians(char2.angle));
+			Graphics2D g2d1 = (Graphics2D)g;
+			g2d1.drawImage(char2.i, at1,null);
 	}
 	
-	public void rotation(Character chara) {
-	    float radianAngle = (float) Math.toRadians(chara.angle) ; 
-	    float sin = (float) Math.abs(Math.sin(radianAngle));
-	    float cos = (float) Math.abs(Math.cos(radianAngle));
-	    int w = chara.i.getWidth(); 
-	    int h = chara.i.getHeight();
-	    int neww = (int) Math.round(w * cos + h * sin);
-	    int newh = (int) Math.round(h * cos + w * sin);
-	    GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-	    GraphicsDevice gd = ge.getDefaultScreenDevice();
-	    GraphicsConfiguration gc = gd.getDefaultConfiguration();
-	    BufferedImage result = gc.createCompatibleImage(neww, newh, Transparency.TRANSLUCENT);
-	    Graphics2D g = result.createGraphics();
-	    g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON) ;
-	    g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC) ;
-	    g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY) ;
-	    AffineTransform at = AffineTransform.getTranslateInstance((neww-w)/2, (newh-h)/2);
-	    at.rotate(radianAngle, w/2, h/2);
-	    g.drawRenderedImage(chara.i, at);
-	    g.dispose();
-	    chara.i = result;
+	public void ActualLocation(Character chara) {
+		
 	}
 	
 	
@@ -99,8 +82,6 @@ public class Hackathon extends JPanel{
 		if(ch1==true) {
 			if(char1.angle<=90) {
 				char1.Charx= (int) (char1.speed*Math.sin(char1.angle));
-				
-				System.out.println(Math.sin(char1.angle));
 				char1.CHary = (int) (char1.speed*Math.cos(char1.angle));
 			}else {
 				if(char1.angle>90&&char1.angle<=180) {
@@ -169,10 +150,12 @@ public class Hackathon extends JPanel{
 		f.add(ha);
 		
 		f.addKeyListener(new KeyListener() {
+			
 			public void keyTyped(KeyEvent e) {
 				
 			}
 			public void keyPressed(KeyEvent e) {
+				System.out.println(angle1A+", "+angle1B+", "+angle2A+", "+angle2B);
 				switch(e.getKeyCode()) {
 				case KeyEvent.VK_D :
 					if(backward1==true) {
@@ -222,8 +205,8 @@ public class Hackathon extends JPanel{
 			public void keyReleased(KeyEvent e) {
 				forward1 = false; backward1 = false;
 				forward2 = false; backward2 = false;
-				angle1A = false;angle2A = false;
-				angle2B = false;angle1B = false;
+				angle1A = false; angle2A = false;
+				angle2B = false; angle1B = false;
 			}
 		});
 		ha.Action();
