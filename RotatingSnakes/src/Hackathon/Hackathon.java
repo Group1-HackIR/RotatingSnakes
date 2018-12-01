@@ -1,8 +1,16 @@
 package Hackathon;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.RenderingHints;
+import java.awt.Transparency;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Timer;
@@ -31,6 +39,22 @@ public class Hackathon extends JPanel{
 		Timer t = new Timer();
 		t.schedule(new TimerTask() {
 			public void run() {
+				if(angle1A) {
+					char1.angle+=5;
+					rotation(char1);
+				}
+				if(angle1B) {
+					char1.angle-=5;
+					rotation(char1);
+				}
+				if(angle2A) {
+					char2.angle+=5;
+					rotation(char2);
+				}
+				if(angle2B) {
+					char2.angle-=5;
+					rotation(char2);
+				}
 				if(forward1||backward1) {
 					moving(true);
 				}
@@ -43,16 +67,40 @@ public class Hackathon extends JPanel{
 	}
 	
 	public void paint(Graphics g) {
-		g.drawImage(character1, char1.x, char1.y,null);
-		g.drawImage(character2, char2.x, char2.y,null);
+		g.drawImage(char1.i, char1.x, char1.y,null);
+		g.drawImage(char2.i, char2.x, char2.y,null);
 	}
+	
+	public void rotation(Character chara) {
+	    float radianAngle = (float) Math.toRadians(chara.angle) ; 
+	    float sin = (float) Math.abs(Math.sin(radianAngle));
+	    float cos = (float) Math.abs(Math.cos(radianAngle));
+	    int w = chara.i.getWidth(); 
+	    int h = chara.i.getHeight();
+	    int neww = (int) Math.round(w * cos + h * sin);
+	    int newh = (int) Math.round(h * cos + w * sin);
+	    GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+	    GraphicsDevice gd = ge.getDefaultScreenDevice();
+	    GraphicsConfiguration gc = gd.getDefaultConfiguration();
+	    BufferedImage result = gc.createCompatibleImage(neww, newh, Transparency.TRANSLUCENT);
+	    Graphics2D g = result.createGraphics();
+	    g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON) ;
+	    g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC) ;
+	    g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY) ;
+	    AffineTransform at = AffineTransform.getTranslateInstance((neww-w)/2, (newh-h)/2);
+	    at.rotate(radianAngle, w/2, h/2);
+	    g.drawRenderedImage(chara.i, at);
+	    g.dispose();
+	    chara.i = result;
+	}
+	
 	
 	public void moving(boolean ch1) {
 		if(ch1==true) {
 			if(char1.angle<=90) {
 				char1.Charx= (int) (char1.speed*Math.sin(char1.angle));
+				
 				System.out.println(Math.sin(char1.angle));
-				System.out.println(char1.Charx);
 				char1.CHary = (int) (char1.speed*Math.cos(char1.angle));
 			}else {
 				if(char1.angle>90&&char1.angle<=180) {
@@ -107,13 +155,19 @@ public class Hackathon extends JPanel{
 	static boolean backward1 = false;
 	static boolean forward2 = false;
 	static boolean backward2 = false;
+	static boolean angle1A = false;
+	static boolean angle1B = false;
+	static boolean angle2A = false;
+	static boolean angle2B = false;
 	public static void main(String[] args) {
 		JFrame f = new JFrame("rotating snakes");
 		Hackathon ha = new Hackathon();
 		f.setVisible(true);
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setSize(730,700);
+		ha.setBackground(Color.WHITE);
 		f.add(ha);
+		
 		f.addKeyListener(new KeyListener() {
 			public void keyTyped(KeyEvent e) {
 				
@@ -153,21 +207,23 @@ public class Hackathon extends JPanel{
 					}
 				break;
 				case KeyEvent.VK_A :
-					char1.angle+=5;
+					angle1A = true;
 				break;
 				case KeyEvent.VK_S :
-					char1.angle-=5;
+					angle1B = true;
 				break;
 				case KeyEvent.VK_N :
-					char2.angle+=5;
+					angle2A = true;
 				break;
 				case KeyEvent.VK_M :
-					char2.angle-=5;
+					angle2B = true;
 				}
 			}
 			public void keyReleased(KeyEvent e) {
 				forward1 = false; backward1 = false;
 				forward2 = false; backward2 = false;
+				angle1A = false;angle2A = false;
+				angle2B = false;angle1B = false;
 			}
 		});
 		ha.Action();
