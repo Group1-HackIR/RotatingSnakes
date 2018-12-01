@@ -17,45 +17,96 @@ public class Hackathon extends JPanel{
 	static BufferedImage character2;
 	static {
 		try {
-			character1 = ImageIO.read(Hackathon.class.getResource("Char1,jpg"));
-			character2 = ImageIO.read(Hackathon.class.getResource("Char2,jpg"));
+			character1 = ImageIO.read(Hackathon.class.getResource("char1.jpg"));
+			character2 = ImageIO.read(Hackathon.class.getResource("char2.jpg"));
 		}catch(IOException e) {
 			e.printStackTrace();
 		}
 	}
+	static Character char1;
+	static Character char2;
 	public void Action() {
+		char1 = new Character(character1, 300, 300);
+		char2 = new Character(character2, 200, 500);
 		Timer t = new Timer();
 		t.schedule(new TimerTask() {
 			public void run() {
+				if(forward1||backward1) {
+					moving(true);
+				}
+				if(forward2||backward2) {
+					moving(false);
+				}
 				repaint();
 			}
 		}, 0,20);
 	}
 	
 	public void paint(Graphics g) {
-		g.drawString(x+","+y, 50, 50);
+		g.drawImage(character1, char1.x, char1.y,null);
+		g.drawImage(character2, char2.x, char2.y,null);
 	}
 	
-	int angle1 = 0;
-	int angle2 = 0;
-	int speed = 7;
-	//north = 0; east = 90degree
-	int Char1X = 0;int Char2X = 0;
-	int Char1Y = 0;int Char2Y = 0;
-	public void moving(boolean char1) {
-		if(char1==true) {
-			if(angle1<=90) {
-				Char1X = (int) (speed*Math.sin(angle1));
-				Char1Y = (int) (speed*Math.cos(angle1));
-				
+	public void moving(boolean ch1) {
+		if(ch1==true) {
+			if(char1.angle<=90) {
+				char1.Charx= (int) (char1.speed*Math.sin(char1.angle));
+				System.out.println(Math.sin(char1.angle));
+				System.out.println(char1.Charx);
+				char1.CHary = (int) (char1.speed*Math.cos(char1.angle));
+			}else {
+				if(char1.angle>90&&char1.angle<=180) {
+					char1.CHary= (int) (char1.speed*Math.sin(char1.angle-90));
+					char1.Charx = (int) (char1.speed*Math.cos(char1.angle-90));
+				}else {
+					if(char1.angle>1800&&char1.angle<=270) {
+						char1.Charx= (int) (char1.speed*Math.sin(char1.angle-180));
+						char1.CHary = (int) (char1.speed*Math.cos(char1.angle-180));
+					}else {
+						char1.CHary= (int) (char1.speed*Math.sin(char1.angle-270));
+						char1.Charx = (int) (char1.speed*Math.cos(char1.angle-270));
+					}
+				}
+			}
+			if(forward1==true) {
+				char1.x+=char1.Charx; char1.y+=char1.CHary;
+			}
+			if(backward1==true) {
+				char1.x-=char1.Charx; char1.y-=char1.CHary;
+			}
+		}else {
+			if(char2.angle<=90) {
+				char2.Charx= (int) (char2.speed*Math.sin(char2.angle));
+				char2.CHary = (int) (char2.speed*Math.cos(char2.angle));
+			}else {
+				if(char2.angle>90&&char2.angle<=180) {
+					char2.CHary= (int) (char2.speed*Math.sin(char2.angle-90));
+					char2.Charx = (int) (char2.speed*Math.cos(char2.angle-90));
+				}else {
+					if(char2.angle>1800&&char2.angle<=270) {
+						char2.Charx= (int) (char2.speed*Math.sin(char2.angle-180));
+						char2.CHary = (int) (char2.speed*Math.cos(char2.angle-180));
+					}else {
+						char2.CHary= (int) (char2.speed*Math.sin(char2.angle-270));
+						char2.Charx = (int) (char2.speed*Math.cos(char2.angle-270));
+					}
+				}
+			}
+			if(forward2==true) {
+				char2.x+=char2.Charx; char2.y+=char2.CHary;
+			}
+			if(backward2==true) {
+				char2.x-=char2.Charx; char2.y-=char2.CHary;
 			}
 		}
 	}
 	
 	static int x = 0;
 	static int y = 0;
-	static boolean forward = true;
-	static boolean backward = false;
+	static boolean forward1 = false;
+	static boolean backward1 = false;
+	static boolean forward2 = false;
+	static boolean backward2 = false;
 	public static void main(String[] args) {
 		JFrame f = new JFrame("rotating snakes");
 		Hackathon ha = new Hackathon();
@@ -68,25 +119,55 @@ public class Hackathon extends JPanel{
 				
 			}
 			public void keyPressed(KeyEvent e) {
-				if(e.getKeyCode()==KeyEvent.VK_D) {
-					if(backward==true) {
-						forward = true;
-						backward = false;
+				switch(e.getKeyCode()) {
+				case KeyEvent.VK_D :
+					if(backward1==true) {
+						forward1 = true;
+						backward1 = false;
 					}else {
-						forward = true;
+						forward1 = true;
 					}
-				}
-				if(e.getKeyCode()==KeyEvent.VK_F) {
-					if(forward==true) {
-						backward = true;
-						forward = false;
+				break;
+				case KeyEvent.VK_F :
+					if(forward1==true) {
+						backward1 = true;
+						forward1 = false;
 					}else {
-						backward = true;
+						backward1 = true;
 					}
+				break;
+				case KeyEvent.VK_COMMA :
+					if(backward2==true) {
+						forward2 = true;
+						backward2 = false;
+					}else {
+						forward2 = true;
+					}
+				break;
+				case KeyEvent.VK_PERIOD :
+					if(forward2==true) {
+						backward2 = true;
+						forward2 = false;
+					}else {
+						backward2 = true;
+					}
+				break;
+				case KeyEvent.VK_A :
+					char1.angle+=5;
+				break;
+				case KeyEvent.VK_S :
+					char1.angle-=5;
+				break;
+				case KeyEvent.VK_N :
+					char2.angle+=5;
+				break;
+				case KeyEvent.VK_M :
+					char2.angle-=5;
 				}
 			}
 			public void keyReleased(KeyEvent e) {
-
+				forward1 = false; backward1 = false;
+				forward2 = false; backward2 = false;
 			}
 		});
 		ha.Action();
