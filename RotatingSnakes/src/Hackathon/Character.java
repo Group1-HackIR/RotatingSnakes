@@ -11,13 +11,13 @@ public class Character {
 	int CHary = 0;
 	int x;
 	int y;
-	BufferedImage image;
+	BufferedImage i;
 	public Rect boundingBox;
 
 	public Character(BufferedImage ik, int xx, int yy) {
-		this.image = ik;
-		this.x = xx;
-		this.y = yy;
+		i = ik;
+		x = xx;
+		y = yy;
 		Timer t = new Timer();
 		t.schedule(new TimerTask() {
 			public void run() {
@@ -33,13 +33,5 @@ public class Character {
 	
 	public void kill() {
 		
-	}
-	
-	public BufferedImage getImage() {
-		return image;
-	}
-
-	public void setImage(BufferedImage result) {
-		image = result;
 	}
 }
