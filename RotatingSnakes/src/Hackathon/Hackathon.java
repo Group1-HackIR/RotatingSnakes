@@ -67,16 +67,16 @@ public class Hackathon extends JPanel{
 	}
 	
 	public void paint(Graphics g) {
-		g.drawImage(char1.i, char1.x, char1.y,null);
-		g.drawImage(char2.i, char2.x, char2.y,null);
+		g.drawImage(char1.getImage(), char1.x, char1.y,null);
+		g.drawImage(char2.getImage(), char2.x, char2.y,null);
 	}
 	
 	public void rotation(Character chara) {
 	    float radianAngle = (float) Math.toRadians(chara.angle) ; 
 	    float sin = (float) Math.abs(Math.sin(radianAngle));
 	    float cos = (float) Math.abs(Math.cos(radianAngle));
-	    int w = chara.i.getWidth(); 
-	    int h = chara.i.getHeight();
+	    int w = chara.getImage().getWidth(); 
+	    int h = chara.getImage().getHeight();
 	    int neww = (int) Math.round(w * cos + h * sin);
 	    int newh = (int) Math.round(h * cos + w * sin);
 	    GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -89,9 +89,10 @@ public class Hackathon extends JPanel{
 	    g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY) ;
 	    AffineTransform at = AffineTransform.getTranslateInstance((neww-w)/2, (newh-h)/2);
 	    at.rotate(radianAngle, w/2, h/2);
-	    g.drawRenderedImage(chara.i, at);
+	    g.drawRenderedImage(chara.getImage(), at);
 	    g.dispose();
-	    chara.i = result;
+	    
+	    chara.setImage(result);
 	}
 	
 	
