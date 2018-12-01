@@ -30,4 +30,12 @@ public class Rect {
 		return 0.0d;
 	}
 	
+	public void setPoints(Point[] points) {
+		this.points = points;
+	}
+	
+	public Point[] getPoints() {
+		return points;
+	}
+	
 }
