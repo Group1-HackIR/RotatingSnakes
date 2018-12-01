@@ -30,16 +30,17 @@ public class Character {
 			}
 		}, 0, 20);
 	}
-	
+
 	public void kill() {
-		
+
 	}
+
 	public BufferedImage getImage() {
 		return image;
 	}
+
 	public void setImage(BufferedImage image) {
 		this.image = image;
 	}
-	
-	
+
 }
