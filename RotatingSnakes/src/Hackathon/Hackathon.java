@@ -3,6 +3,11 @@ package Hackathon;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.RenderingHints;
+import java.awt.Transparency;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.geom.AffineTransform;
@@ -16,7 +21,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class Hackathon extends JPanel{
-	private static final long serialVersionUID = 1L;
 	static BufferedImage character1;
 	static BufferedImage character2;
 	static {
@@ -29,19 +33,6 @@ public class Hackathon extends JPanel{
 	}
 	static Character char1;
 	static Character char2;
-	
-
-	static int x = 0;
-	static int y = 0;
-	static boolean forward1 = false;
-	static boolean backward1 = false;
-	static boolean forward2 = false;
-	static boolean backward2 = false;
-	static boolean angle1A = false;
-	static boolean angle1B = false;
-	static boolean angle2A = false;
-	static boolean angle2B = false;
-	
 	public void Action() {
 		char1 = new Character(character1, 300, 300);
 		char2 = new Character(character2, 200, 500);
@@ -139,6 +130,16 @@ public class Hackathon extends JPanel{
 		}
 	}
 	
+	static int x = 0;
+	static int y = 0;
+	static boolean forward1 = false;
+	static boolean backward1 = false;
+	static boolean forward2 = false;
+	static boolean backward2 = false;
+	static boolean angle1A = false;
+	static boolean angle1B = false;
+	static boolean angle2A = false;
+	static boolean angle2B = false;
 	public static void main(String[] args) {
 		JFrame f = new JFrame("rotating snakes");
 		Hackathon ha = new Hackathon();
