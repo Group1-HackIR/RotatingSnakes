@@ -63,8 +63,10 @@ public class Hackathon extends JPanel{
 	}
 	
 	public void paint(Graphics g) {
+		g.drawLine(0, char1.y, char1.x, char1.y);
+		g.drawLine(char1.x, 0, char1.x, char1.y);
 			AffineTransform at = AffineTransform.getTranslateInstance(char1.x, char1.y);
-			at.rotate(Math.toRadians(char1.angle));
+			at.rotate(Math.toRadians(char1.angle), );
 			Graphics2D g2d = (Graphics2D)g;
 			g2d.drawImage(char1.i, at,null);
 			AffineTransform at1 = AffineTransform.getTranslateInstance(char2.x, char2.y);
@@ -73,8 +75,11 @@ public class Hackathon extends JPanel{
 			g2d1.drawImage(char2.i, at1,null);
 	}
 	
-	public void ActualLocation(Character chara) {
-		
+	public int[] AL(Character chara) {
+		int[] a = new int[2];
+		a[0] = (int) Math.cos(chara.angle);
+		a[1] = (int) Math.sin(chara.angle);
+		return a;
 	}
 	
 	
